@@ -1,0 +1,83 @@
+[
+    {
+        "id": 1,
+        "name": {
+            "first": "Sétaré",
+            "last": "Cousin"
+        },
+        "image": "/images/setare_cousin.jpeg",
+        "job": "directrice région"
+    },
+    {
+        "id": 2,
+        "name": {
+            "first": "Marianne",
+            "last": "Soulier"
+        },
+        "image": "/images/marianne_soulier.jpeg",
+        "job": "rh lyon Aix"
+    },
+    {
+        "id": 3,
+        "name": {
+            "first": "Anthony",
+            "last": "Tenneriello"
+        },
+        "image": "/images/anthony_tenneriello.jpeg",
+        "job": "développeur PHP"
+    },
+    {
+        "id": 4,
+        "name": {
+            "first": "Arnaud",
+            "last": "Panse"
+        },
+        "image": "/images/arnaud_panse.jpeg",
+        "job": "responsable opérationnel"
+    },
+    {
+        "id": 5,
+        "name": {
+            "first": "Flavio",
+            "last": "Henriques"
+        },
+        "image": "/images/flavio_henriques.jpeg",
+        "job": "développeur fullstack stagiaire"
+    },
+    {
+        "id": 6,
+        "name": {
+            "first": "Florian",
+            "last": "Lorence"
+        },
+        "image": "/images/florian_lorence.jpeg",
+        "job": "expert technique"
+    },
+    {
+        "id": 7,
+        "name": {
+            "first": "Gael",
+            "last": "Soyer"
+        },
+        "image": "/images/gael_soyer.jpeg",
+        "job": "directeur de projet"
+    },
+    {
+        "id": 8,
+        "name": {
+            "first": "Guillaume",
+            "last": "Lesueur"
+        },
+        "image": "/images/guillaume_lesueur.jpeg",
+        "job": "directeur artistique"
+    },
+    {
+        "id": 9,
+        "name": {
+            "first": "Margot",
+            "last": "Duroule"
+        },
+        "image": "/images/margot_duroule.jpeg",
+        "job": "stagiaire rh"
+    }
+]
