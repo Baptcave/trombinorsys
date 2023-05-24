@@ -1,84 +1,81 @@
-<script lang="ts">
+<script setup>
 import data from "../../data.json";
-import { ref, computed, watch } from "vue";
-export default {
-  setup() {
-    const collaborateurs = data;
-    const max = collaborateurs.length;
-    let rand = ref(Math.floor(Math.random() * max));
-    const randCollab = computed(() => collaborateurs[rand.value]);
-    // console.log("id photo affichée :", randCollab.value.id);
+import { ref, watch, computed } from "vue";
+import Random from "./Random.vue";
 
-    const randIds = computed(() => {
-      let selected = [];
-      selected.push(randCollab.value.id - 1);
-      for (let i = 0; i < 3; i++) {
-        let oneRandomIndex = Math.floor(Math.random() * max);
-        while (selected.includes(oneRandomIndex)) {
-          oneRandomIndex = Math.floor(Math.random() * max);
-        }
-        selected = [...selected, oneRandomIndex];
-      }
-      // console.log(selected);
+const collaborators = data;
+const max = collaborators.length;
 
-      return selected;
-    });
+let rand = ref(Math.floor(Math.random() * max));
+const randCollab = computed(() => collaborators[rand.value]);
 
-    const reload = () => {
-      const oldRand = rand.value;
-      while (rand.value === oldRand) {
-        rand.value = Math.floor(Math.random() * max);
-      }
-    };
+const randIds = computed(() => {
+  let selected = [];
+  selected.push(randCollab.value.id - 1);
+  for (let i = 0; i < 3; i++) {
+    let oneRandomIndex = Math.floor(Math.random() * max);
+    while (selected.includes(oneRandomIndex)) {
+      oneRandomIndex = Math.floor(Math.random() * max);
+    }
+    selected = [...selected, oneRandomIndex];
+  }
 
-    const selectedName = ref("");
+  return _.shuffle(selected);
+});
 
-    const victory = ref(false);
-    const failure = ref(false);
-
-    watch(selectedName, () => {
-      console.log("sélectionné", selectedName);
-      console.log("photo affichée", randCollab.value.id);
-
-      const selectedId = parseInt(selectedName.value, 10) + 1;
-      if (selectedId.toString() === randCollab.value.id.toString()) {
-        victory.value = true;
-        failure.value = false;
-      } else {
-        failure.value = true;
-        victory.value = false;
-      }
-    });
-
-    return {
-      collaborateurs,
-      max,
-      randCollab,
-      reload,
-      randIds,
-      selectedName,
-      victory,
-      failure,
-    };
-  },
+const reload = () => {
+  selectedName.value = "";
+  victory.value = false;
+  clicked.value = false;
+  const oldRand = rand.value;
+  while (rand.value === oldRand) {
+    rand.value = Math.floor(Math.random() * max);
+  }
 };
+
+const selectedName = ref("");
+
+const victory = ref(false);
+const clicked = ref(false);
+
+const handleClick = (newId) => {
+  selectedName.value = newId;
+  clicked.value = true;
+};
+
+watch(selectedName, () => {
+  const selectedId = parseInt(selectedName.value, 10) + 1;
+  if (selectedId.toString() === randCollab.value.id.toString()) {
+    victory.value = true;
+  } else {
+    victory.value = false;
+  }
+});
 </script>
 
 <template>
-  <h2>Bienvenue dans le niveau 1</h2>
-  <button @click="reload">Recharger</button>
   <div>
-    <img :src="randCollab.image" />
+    <h2>Bienvenue dans le niveau 1</h2>
+    <button @click="reload">Recharger</button>
+
+    <div>
+      <Random
+        @selection="handleClick"
+        :collaborators="collaborators"
+        :rand-collab="randCollab"
+        :rand-ids="randIds"
+        :selected-name="selectedName"
+      />
+    </div>
+
+    <div class="" v-if="clicked">
+      <p class="victory" v-if="victory">Gagné !</p>
+      <p class="failure" v-else>Essaye encore...</p>
+    </div>
   </div>
-  <div v-for="(nameId, i) in randIds" :key="i">
-    <input type="radio" id="nameId" :value="nameId" v-model="selectedName" />
-    <label for="nameId">{{ collaborateurs[nameId].name.first }}</label>
-  </div>
-  <p class="victory" v-if="victory">Gagné !</p>
-  <p class="failure" v-else-if="failure">Essaye encore...</p>
 </template>
 
-<style>
+<style lang="scss">
 img {
   width: 150px;
   height: 150px;
