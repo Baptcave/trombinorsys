@@ -1,6 +1,7 @@
 <script setup>
 import data from "../../data.json";
-import { ref, computed, watch } from "vue";
+import { ref, watch, computed } from "vue";
+import Random from "./Random.vue";
 
 const collaborators = data;
 const max = collaborators.length;
@@ -32,14 +33,15 @@ const reload = () => {
   }
 };
 
-const handleClick = () => {
-  clicked.value = true;
-};
-
 const selectedName = ref("");
 
 const victory = ref(false);
 const clicked = ref(false);
+
+const handleClick = (newId) => {
+  selectedName.value = newId;
+  clicked.value = true;
+};
 
 watch(selectedName, () => {
   const selectedId = parseInt(selectedName.value, 10) + 1;
@@ -56,20 +58,15 @@ watch(selectedName, () => {
     <h2>Bienvenue dans le niveau 1</h2>
     <button @click="reload">Recharger</button>
 
-    <!--COMPOSANT AVEC EMIT/PROPS -->
     <div>
-      <img :src="randCollab.image" alt="" />
-    </div>
-    <div v-for="(nameId, i) in randIds" :key="i" @click="handleClick">
-      <input
-        type="radio"
-        :id="i.toString()"
-        :value="nameId"
-        v-model="selectedName"
+      <Random
+        @selection="handleClick"
+        :collaborators="collaborators"
+        :rand-collab="randCollab"
+        :rand-ids="randIds"
+        :selected-name="selectedName"
       />
-      <label :for="i.toString()">{{ collaborators[nameId].name.first }}</label>
     </div>
-    <!-- END COMPOSANT -->
 
     <div class="" v-if="clicked">
       <p class="victory" v-if="victory">Gagné !</p>
